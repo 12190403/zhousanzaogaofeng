@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<style type="text/css">
+		body, html{width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}
+		#allmap{height:100%;width:100%;}
+		#r-result{width:100%;}
+	</style>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=vAcwwaR1GeTFn7G2jnnlURm17AzKCQoT"></script>
+	<script type="text/javascript" src="1route7-8.js"></script>
+	<title>采集点分布</title>
+</head>
+<body>
+	<div id="allmap"></div>
+	<div id="r-result">
+		<input type="button" onclick="add_overlay();" value="添加覆盖物" />
+		<input type="button" onclick="remove_overlay();" value="删除覆盖物" />
+	</div>
+</body>
+</html>
+<script type="text/javascript">
+	// 百度地图API功能
+	var map = new BMap.Map("allmap");
+	var point = new BMap.Point(106.46731867672,29.544701812189);
+    map.centerAndZoom(point, 15);//初始化
+
+
+	map.addControl(new BMap.NavigationControl());               // 添加平移缩放控件
+	map.addControl(new BMap.ScaleControl());                    // 添加比例尺控件
+	map.addControl(new BMap.OverviewMapControl());              //添加缩略地图控件
+	map.enableScrollWheelZoom();                            //启用滚轮放大缩小
+	map.addControl(new BMap.MapTypeControl());          //添加地图类型控件
+	map.setCurrentCity("重庆");          // 设置地图显示的城市 此项是必须设置的
+
+	//个性化在线编辑器地址：http://lbsyun.baidu.com/custom/
+	  var styleJson = [
+          {
+                    "featureType": "land",
+                    "elementType": "all",
+                    "stylers": {
+                              "lightness": 100,
+                              "saturation": -100
+                    }
+          },
+          {
+                    "featureType": "water",
+                    "elementType": "all",
+                    "stylers": {
+                              "lightness": 47
+                    }
+          },
+          {
+                    "featureType": "manmade",
+                    "elementType": "geometry",
+                    "stylers": {
+                              "lightness": 28
+                    }
+          },
+          {
+                    "featureType": "road",
+                    "elementType": "geometry.fill",
+                    "stylers": {
+                              "lightness": 82
+                    }
+          },
+          {
+                    "featureType": "road",
+                    "elementType": "geometry.stroke",
+                    "stylers": {
+                              "lightness": -76
+                    }
+          },
+          {
+                    "featureType": "green",
+                    "elementType": "all",
+                    "stylers": {
+                              "lightness": 63,
+                              "saturation": -100
+                    }
+          },
+          {
+                    "featureType": "boundary",
+                    "elementType": "geometry.fill",
+                    "stylers": {
+                              "lightness": 80,
+                              "saturation": 1
+                    }
+          },
+          {
+                    "featureType": "boundary",
+                    "elementType": "geometry.stroke",
+                    "stylers": {
+                              "lightness": -75,
+                              "saturation": -100
+                    }
+          }
+	]
+	map.setMapStyle({styleJson:styleJson});
+
+	for(var j=0;j<data_set1.length;j++){
+		var json=data_set1[j];
+		var myline=json.path.split(";");
+		var myarray=new Array();
+		for(var i=0;i<myline.length;i++){
+			var p0=myline[i].split(",")[0];
+			var p1=myline[i].split(",")[1];
+			var point=new BMap.Point(p0,p1);
+			myarray.push(point);
+		}
+
+		var polyline = new BMap.Polyline( myarray, {strokeColor:json.roadclass, strokeWeight:5, strokeOpacity:0.8});   //创建折线
+		map.addOverlay(polyline);
+		var label = new BMap.Label({offset:new BMap.Size(20,-10)});
+	}
+
+	for(var j=0;j<data_set2.length;j++){
+		var json=data_set2[j];
+		var p0=json.mypoint.split(",")[0];
+		var p1=json.mypoint.split(",")[1];
+		var marker = new BMap.Marker(new BMap.Point(p0, p1));
+		map.addOverlay(marker);
+	    marker.setLabel(label);
+	}
+
+	for(var j=0;j<data_set3.length;j++){
+		var json=data_set3[j];
+		var p0=json.mypoint.split(",")[0];
+		var p1=json.mypoint.split(",")[1];
+		var marker = new BMap.Marker(new BMap.Point(p0, p1));
+		map.addOverlay(marker);
+	    marker.setLabel(label);
+	}
+
+	for(var j=0;j<data_set4.length;j++){
+		var json=data_set4[j];
+		var p0=json.mypoint.split(",")[0];
+		var p1=json.mypoint.split(",")[1];
+		var marker = new BMap.Marker(new BMap.Point(p0, p1));
+		map.addOverlay(marker);
+	    marker.setLabel(label);
+	}
+
+	for(var j=0;j<data_set5.length;j++){
+		var json=data_set5[j];
+		var p0=json.mypoint.split(",")[0];
+		var p1=json.mypoint.split(",")[1];
+		var marker = new BMap.Marker(new BMap.Point(p0, p1));
+		map.addOverlay(marker);
+	    marker.setLabel(label);
+	}
+
+	for(var j=0;j<data_set6.length;j++){
+		var json=data_set6[j];
+		var p0=json.mypoint.split(",")[0];
+		var p1=json.mypoint.split(",")[1];
+		var marker = new BMap.Marker(new BMap.Point(p0, p1));
+		map.addOverlay(marker);
+	    marker.setLabel(label);
+	}
+
+	for(var j=0;j<data_set7.length;j++){
+		var json=data_set7[j];
+		var p0=json.mypoint.split(",")[0];
+		var p1=json.mypoint.split(",")[1];
+		var marker = new BMap.Marker(new BMap.Point(p0, p1));
+		map.addOverlay(marker);
+	    marker.setLabel(label);
+	}
+
+	for(var j=0;j<data_set8.length;j++){
+		var json=data_set8[j];
+		var p0=json.mypoint.split(",")[0];
+		var p1=json.mypoint.split(",")[1];
+		var marker = new BMap.Marker(new BMap.Point(p0, p1));
+		map.addOverlay(marker);
+	    marker.setLabel(label);
+	}
+
+	for(var j=0;j<data_set9.length;j++){
+		var json=data_set9[j];
+		var p0=json.mypoint.split(",")[0];
+		var p1=json.mypoint.split(",")[1];
+		var marker = new BMap.Marker(new BMap.Point(p0, p1));
+		map.addOverlay(marker);
+	    marker.setLabel(label);
+	}
+
+	for(var j=0;j<data_set10.length;j++){
+		var json=data_set10[j];
+		var p0=json.mypoint.split(",")[0];
+		var p1=json.mypoint.split(",")[1];
+		var marker = new BMap.Marker(new BMap.Point(p0, p1));
+		map.addOverlay(marker);
+	    marker.setLabel(label);
+	}
+
+	for(var j=0;j<data_set11.length;j++){
+		var json=data_set11[j];
+		var p0=json.mypoint.split(",")[0];
+		var p1=json.mypoint.split(",")[1];
+		var marker = new BMap.Marker(new BMap.Point(p0, p1));
+		map.addOverlay(marker);
+	    marker.setLabel(label);
+	}
+
+	for(var j=0;j<data_set12.length;j++){
+		var json=data_set12[j];
+		var p0=json.mypoint.split(",")[0];
+		var p1=json.mypoint.split(",")[1];
+		var marker = new BMap.Marker(new BMap.Point(p0, p1));
+		map.addOverlay(marker);
+	    marker.setLabel(label);
+	}
+
+	for(var j=0;j<data_set13.length;j++){
+		var json=data_set13[j];
+		var p0=json.mypoint.split(",")[0];
+		var p1=json.mypoint.split(",")[1];
+		var marker = new BMap.Marker(new BMap.Point(p0, p1));
+		map.addOverlay(marker);
+	    marker.setLabel(label);
+	}
+
+	for(var j=0;j<data_set14.length;j++){
+		var json=data_set14[j];
+		var p0=json.mypoint.split(",")[0];
+		var p1=json.mypoint.split(",")[1];
+		var marker = new BMap.Marker(new BMap.Point(p0, p1));
+		map.addOverlay(marker);
+	    marker.setLabel(label);
+	}
+
+	for(var j=0;j<data_set15.length;j++){
+		var json=data_set15[j];
+		var p0=json.mypoint.split(",")[0];
+		var p1=json.mypoint.split(",")[1];
+		var marker = new BMap.Marker(new BMap.Point(p0, p1));
+		map.addOverlay(marker);
+	    marker.setLabel(label);
+	}
+
+	for(var j=0;j<data_set16.length;j++){
+		var json=data_set16[j];
+		var p0=json.mypoint.split(",")[0];
+		var p1=json.mypoint.split(",")[1];
+		var marker = new BMap.Marker(new BMap.Point(p0, p1));
+		map.addOverlay(marker);
+	    marker.setLabel(label);
+	}
+
+	for(var j=0;j<data_set17.length;j++){
+		var json=data_set17[j];
+		var p0=json.mypoint.split(",")[0];
+		var p1=json.mypoint.split(",")[1];
+		var marker = new BMap.Marker(new BMap.Point(p0, p1));
+		map.addOverlay(marker);
+	    marker.setLabel(label);
+	}
+
+	for(var j=0;j<data_set18.length;j++){
+		var json=data_set18[j];
+		var p0=json.mypoint.split(",")[0];
+		var p1=json.mypoint.split(",")[1];
+		var marker = new BMap.Marker(new BMap.Point(p0, p1));
+		map.addOverlay(marker);
+	    marker.setLabel(label);
+	}
+
+	for(var j=0;j<data_set19.length;j++){
+		var json=data_set19[j];
+		var p0=json.mypoint.split(",")[0];
+		var p1=json.mypoint.split(",")[1];
+		var marker = new BMap.Marker(new BMap.Point(p0, p1));
+		map.addOverlay(marker);
+	    marker.setLabel(label);
+	}
+
+	for(var j=0;j<data_set20.length;j++){
+		var json=data_set20[j];
+		var p0=json.mypoint.split(",")[0];
+		var p1=json.mypoint.split(",")[1];
+		var marker = new BMap.Marker(new BMap.Point(p0, p1));
+		map.addOverlay(marker);
+	    marker.setLabel(label);
+	}
+
+	for(var j=0;j<data_set21.length;j++){
+		var json=data_set21[j];
+		var p0=json.mypoint.split(",")[0];
+		var p1=json.mypoint.split(",")[1];
+		var marker = new BMap.Marker(new BMap.Point(p0, p1));
+		map.addOverlay(marker);
+	    marker.setLabel(label);
+	}
+
+	for(var j=0;j<data_set22.length;j++){
+		var json=data_set22[j];
+		var p0=json.mypoint.split(",")[0];
+		var p1=json.mypoint.split(",")[1];
+		var marker = new BMap.Marker(new BMap.Point(p0, p1));
+		map.addOverlay(marker);
+	    marker.setLabel(label);
+	}
+
+	for(var j=0;j<data_set23.length;j++){
+		var json=data_set23[j];
+		var p0=json.mypoint.split(",")[0];
+		var p1=json.mypoint.split(",")[1];
+		var marker = new BMap.Marker(new BMap.Point(p0, p1));
+		map.addOverlay(marker);
+	    marker.setLabel(label);
+	}
+
+	for(var j=0;j<data_set24.length;j++){
+		var json=data_set24[j];
+		var p0=json.mypoint.split(",")[0];
+		var p1=json.mypoint.split(",")[1];
+		var marker = new BMap.Marker(new BMap.Point(p0, p1));
+		map.addOverlay(marker);
+	    marker.setLabel(label);
+	}
+
+	for(var j=0;j<data_set25.length;j++){
+		var json=data_set25[j];
+		var p0=json.mypoint.split(",")[0];
+		var p1=json.mypoint.split(",")[1];
+		var marker = new BMap.Marker(new BMap.Point(p0, p1));
+		map.addOverlay(marker);
+	    marker.setLabel(label);
+	}
+
+	for(var j=0;j<data_set26.length;j++){
+		var json=data_set26[j];
+		var p0=json.mypoint.split(",")[0];
+		var p1=json.mypoint.split(",")[1];
+		var marker = new BMap.Marker(new BMap.Point(p0, p1));
+		map.addOverlay(marker);
+	    marker.setLabel(label);
+	}
+
+	for(var j=0;j<data_set27.length;j++){
+		var json=data_set27[j];
+		var p0=json.mypoint.split(",")[0];
+		var p1=json.mypoint.split(",")[1];
+		var marker = new BMap.Marker(new BMap.Point(p0, p1));
+		map.addOverlay(marker);
+	    marker.setLabel(label);
+	}
+
+	for(var j=0;j<data_set28.length;j++){
+		var json=data_set28[j];
+		var p0=json.mypoint.split(",")[0];
+		var p1=json.mypoint.split(",")[1];
+		var marker = new BMap.Marker(new BMap.Point(p0, p1));
+		map.addOverlay(marker);
+	    marker.setLabel(label);
+	}
+
+</script>
